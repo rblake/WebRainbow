@@ -68,6 +68,7 @@ void setup() {
 void loop() {
   char c,d;
   int i=0,temp[2],temp2;
+  long r,g,b;
   Client client = server.available();
    if (client) {
     client.println("webRaibow-server");
@@ -101,32 +102,20 @@ void loop() {
             
             // R G B
             if (finder.findUntil("r:", "\n\r")) {
-              c = client.read();
-              temp[0] = c;
-              d = client.read();
-              temp[1] = d;
-              temp2 = (temp[0]-48)*10+(temp[1]-48);
-              command[3] = temp2;
+            r = finder.getValue();
+              command[3] = r;
               client.println(command[3]);
             }    else { break; } 
             
             if (finder.findUntil("g:", "\n\r")) {
-              c = client.read();
-              temp[0] = c;
-              d = client.read();
-              temp[1] = d;
-              temp2 = (temp[0]-48)*10+(temp[1]-48); 
-              command[4] = temp2;
+               g = finder.getValue();
+              command[4] = g;
               client.println("Reading g");
             }     else { break; }
             
             if (finder.findUntil("b:", "\n\r")) {
-              c = client.read();
-              temp[0] = c;
-              d = client.read();
-              temp[1] = d;
-              temp2 = (temp[0]-48)*10+(temp[1]-48);
-              command[5] = temp2;
+              b = finder.getValue();
+              command[5] = b;
               client.println("Reading b");
             } else { break; }
             //////////////
