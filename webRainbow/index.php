@@ -9,7 +9,7 @@ var raibow_i2c_id;
 var color = "#FFFFFF" , rainbowColor = 99;
 matrix = new Array();
 
-function connect(ID,X,Y,r,g,b)
+function connect(type,ID,X,Y,r,g,b)
 {
 
 if (window.XMLHttpRequest)
@@ -23,7 +23,7 @@ else
 xmlhttp.onreadystatechange=function()
   {
   }
-xmlhttp.open("GET","connect.php?ID="+ID+"&X="+X+"&Y="+Y+"&r="+r+"&g="+g+"&b="+b,true);
+xmlhttp.open("GET","connect.php?type="+type+"&ID="+ID+"&X="+X+"&Y="+Y+"&r="+r+"&g="+g+"&b="+b,true);
 xmlhttp.send();
 }
 
@@ -60,6 +60,66 @@ function pick_color(mode,col) {
 	break;
 	}
 }
+
+
+
+function setMatrixColor() {
+	for (x=0; x<8; x++) {
+		for (y=0; y<8; y++) {
+	document.getElementById(x+"-"+y).style.background = color;
+		}	
+	}
+	switch (rainbowColor) {
+		case 0:
+		matrix[2] = "15";
+		matrix[3] = "00";
+		matrix[4] = "00";
+		break;
+		case 1:
+		matrix[2] = "00";
+		matrix[3] = "15";
+		matrix[4] = "00";
+		break;
+		case 2:
+		matrix[2] = "00";
+		matrix[3] = "00";
+		matrix[4] = "15";
+		break;
+		case 99:
+		matrix[2] = "15";
+		matrix[3] = "15";
+		matrix[4] = "15";
+		break;
+		case 100:
+		matrix[2] = "00";
+		matrix[3] = "00";
+		matrix[4] = "00";
+		break;
+		default:
+		
+		var r,g,b;
+		r = rainbowColor.substr(1,2);
+		g = rainbowColor.substr(3,2);
+		b = rainbowColor.substr(5,2);
+		
+		r = parseInt(r,16);
+		g = parseInt(g,16);
+		b = parseInt(b,16);
+		
+		r = Math.floor(r/17);
+		g = Math.floor(g/17);
+		b = Math.floor(b/17);
+		
+		matrix[2] = r;
+		matrix[3] = g;
+		matrix[4] = b;
+		break;
+	}	
+	
+	generate_command_showColor();
+}
+	
+
 function clickId(x,y) {
 	document.getElementById(x+"-"+y).style.background = color;
 	matrix[0] = x;
@@ -111,13 +171,20 @@ function clickId(x,y) {
 		break;
 	}	
 	
-	generate_command();
+	generate_command_pixel();
 }
 
-function generate_command() {
+function generate_command_pixel() {
 	i2c = document.getElementById('i2c_bus').value;
 	document.getElementById('result').innerHTML += "<br />SetPixelXY("+i2c+", "+matrix[0]+", "+matrix[1]+", "+matrix[2]+", "+matrix[3]+", "+matrix[4]+");  ";
-	connect(i2c,matrix[0],matrix[1],matrix[2],matrix[3],matrix[4])
+	connect(0,i2c,matrix[0],matrix[1],matrix[2],matrix[3],matrix[4]);
+	
+}
+
+function generate_command_showColor() {
+	i2c = document.getElementById('i2c_bus').value;
+	document.getElementById('result').innerHTML += "<br />ShowColor("+i2c+", "+matrix[2]+", "+matrix[3]+", "+matrix[4]+");  ";
+	connect(1,i2c,0,0,matrix[2],matrix[3],matrix[4]);
 	
 }
 
@@ -199,7 +266,10 @@ function change_matrix_number() {
 </table>
 
 <h3>or use the color picker:</h3><br />
-<input class="color" style="width:240px" onchange="pick_color(1,this.color)" />
+<input type="text" class="color" onchange="pick_color(1,this.color)"/>
+<input type="submit" name="button2" id="button2" value="Set matrix color" onclick="setMatrixColor()" />
+<br />
+<br />
 <p>Select the i2c bus ID: <input name="i2c_bus" id="i2c_bus" type="text" value="3" size="2" maxlength="2" />
 </p>
 
