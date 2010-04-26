@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>webRainbow</title>
+<script type="text/javascript" src="jscolor/jscolor.js"></script>
 <script language="javascript" type="text/javascript">
 var raibow_i2c_id;
 var color = "#FFFFFF" , rainbowColor = 99;
@@ -27,7 +28,9 @@ xmlhttp.send();
 }
 
 
-function pick_color(col) {
+function pick_color(mode,col) {
+	switch (mode) {
+	case 0:
 	switch (col) {
 		case 0:
 		color = "#FF0000";
@@ -49,7 +52,13 @@ function pick_color(col) {
 		color = "#FFFFFF";
 		rainbowColor = 99;
 		break;
-	}  
+		}  
+		break;
+	case 1:
+	color = "#"+col;
+	rainbowColor = "#"+col;
+	break;
+	}
 }
 function clickId(x,y) {
 	document.getElementById(x+"-"+y).style.background = color;
@@ -80,6 +89,25 @@ function clickId(x,y) {
 		matrix[2] = "00";
 		matrix[3] = "00";
 		matrix[4] = "00";
+		break;
+		default:
+		
+		var r,g,b;
+		r = rainbowColor.substr(1,2);
+		g = rainbowColor.substr(3,2);
+		b = rainbowColor.substr(5,2);
+		
+		r = parseInt(r,16);
+		g = parseInt(g,16);
+		b = parseInt(b,16);
+		
+		r = Math.floor(r/17);
+		g = Math.floor(g/17);
+		b = Math.floor(b/17);
+		
+		matrix[2] = r;
+		matrix[3] = g;
+		matrix[4] = b;
 		break;
 	}	
 	
@@ -148,7 +176,7 @@ function change_matrix_number() {
   <tr>";
   for($i = 0; $i < 8; $i++) {
   echo "
-  <td bgcolor=\"#000000\" onmouseover=\"over(".$i.",".$j.")\"  onmouseout=\"out(".$i.",".$j.")\" onclick=\"clickId(".$i.",".$j.")\" id=\"".$i."-".$j."\"><img src=\"img/dot.png\" /></td>";
+  <td bgcolor=\"#000000\" onclick=\"clickId(".$i.",".$j.")\" id=\"".$i."-".$j."\"><img src=\"img/dot.png\" /></td>";
   	}
   echo "
   </tr>
@@ -159,16 +187,19 @@ function change_matrix_number() {
 
 </table>
 
-<h3>Pick a color</h3>
+<h3>Pick a standard color:</h3>
 <table width="240" border="1">
   <tr>
-    <td width="48px" bgcolor="#FF0000" onclick="pick_color(0)">&nbsp;</td>
-    <td width="48px" bgcolor="#00FF00" onclick="pick_color(1)">&nbsp;</td>
-    <td width="48px" bgcolor="#0000FF" onclick="pick_color(2)">&nbsp;</td>
-    <td width="48px" bgcolor="#FFFFFF" onclick="pick_color(99)">&nbsp;</td>
-    <td width="48px" bgcolor="#000000" onclick="pick_color(100)" style="color:#FFFFFF"><div align="center">OFF</div></td>
+    <td width="48px" bgcolor="#FF0000" onclick="pick_color(0,0)">&nbsp;</td>
+    <td width="48px" bgcolor="#00FF00" onclick="pick_color(0,1)">&nbsp;</td>
+    <td width="48px" bgcolor="#0000FF" onclick="pick_color(0,2)">&nbsp;</td>
+    <td width="48px" bgcolor="#FFFFFF" onclick="pick_color(0,99)">&nbsp;</td>
+    <td width="48px" bgcolor="#000000" onclick="pick_color(0,100)" style="color:#FFFFFF"><div align="center">OFF</div></td>
   </tr>
-</table><br />
+</table>
+
+<h3>or use the color picker:</h3><br />
+<input class="color" style="width:240px" onchange="pick_color(1,this.color)" />
 <p>Select the i2c bus ID: <input name="i2c_bus" id="i2c_bus" type="text" value="3" size="2" maxlength="2" />
 </p>
 
