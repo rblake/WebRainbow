@@ -222,21 +222,54 @@ function change_matrix_number() {
 }
 </script>
 
-</head>
+<style type="text/css">
+<!--
+body,td,th {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #FFFFFF;
+}
+body {
+	background-color: #000000;
+}
+h2 {
+	font-size: 14px;
+}
+h3 {
+	font-size: 12px;
+}
+a:link {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+a:hover {
+	text-decoration: underline;
+}
+a:active {
+	text-decoration: none;
+}
+-->
+</style></head>
 
 <body>
-<h1>webRainbow!</h1>
-
-<select id="matrix_number" name="matrix_number" onchange="change_matrix_number()">
-  <option value="1" selected="selected">1</option>
-  <option value="2">2</option>
-  <option value="3">3</option>
-</select>
-
+<p><img src="img/logo.jpg" alt="webRainbow Logo" /><img src="img/slogan.jpg" alt="Arduino+Rainbowduino+web" /></p>
+<p><img src="img/color_bar.jpg" alt="--------" width="870" height="45" />
+  <!--
+    <select id="matrix_number" name="matrix_number" onchange="change_matrix_number()">
+      <option value="1" selected="selected">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+          </select> 
+          -->
+</p>
 <div id="container">
-<div id="rainbow_1" style=" width: 300px; float: left">
+<div id="rainbow_1" style=" width: 300px; float: left; padding-left: 30px;">
 <h2>Matrix 1</h2>
-<table width="240" border="0" id="color_table" bgcolor="#ffffff" bordercolor="#CCCCCC"; cellpadding="1">
+<table width="240" border="0" id="color_table" bgcolor="#ffffff" cellspacing="1">
   <?php
   for ($j=7; $j>=0; $j--) {
   echo "
@@ -255,7 +288,7 @@ function change_matrix_number() {
 </table>
 
 <h3>Pick a standard color:</h3>
-<table width="240" border="1">
+<table width="240" border="0" cellspacing="1" bgcolor="#FFFFFF">
   <tr>
     <td width="48px" bgcolor="#FF0000" onclick="pick_color(0,0)">&nbsp;</td>
     <td width="48px" bgcolor="#00FF00" onclick="pick_color(0,1)">&nbsp;</td>
@@ -264,7 +297,6 @@ function change_matrix_number() {
     <td width="48px" bgcolor="#000000" onclick="pick_color(0,100)" style="color:#FFFFFF"><div align="center">OFF</div></td>
   </tr>
 </table>
-
 <h3>or use the color picker:</h3><br />
 <input type="text" class="color" onchange="pick_color(1,this.color)"/>
 <input type="submit" name="button2" id="button2" value="Set matrix color" onclick="setMatrixColor()" />
@@ -278,7 +310,7 @@ function change_matrix_number() {
 
 </div>
 <div style="clear:both"></div>
-<div id="showthecode"><a href="javascript:void(0);" onclick="document.getElementById('result').style.display = 'block'">Show the code....</a><br /></div>
-<div id="result" style="display:none"></div>
+<div id="showthecode" style="padding-left:30px; padding-top: 15px;"><a href="javascript:void(0);" onclick="document.getElementById('result').style.display = 'block'">Show the code....</a><br /></div>
+<div id="result" style="display:none; padding-left: 30px;"></div>
 </body>
 </html>
