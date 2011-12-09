@@ -1,3 +1,5 @@
+#include <SPI.h>
+
 /*
  webRainbow - arduino_firmware.pde
  April 2010
@@ -316,9 +318,12 @@ void SendCMD(int  Adr) {
       if ((temp == 1)||(temp == 2)) CMDState = 2;
       else if (temp==0) CMDState = 0;
 
-      if (timeout > 5000) {
+      if (timeout > 500) {
         timeout = 0;
-        CMDState = 0;
+        char error_string[128];
+        sprintf(error_string, "Command failed: %c %d %x %x %x",RainbowCMD[0],RainbowCMD[1],RainbowCMD[2],RainbowCMD[3],RainbowCMD[4]);
+        Serial.println(error_string);
+        CMDState = 2;
       }
       delay(5);
       break;
