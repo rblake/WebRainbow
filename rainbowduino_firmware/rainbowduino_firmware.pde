@@ -62,6 +62,7 @@ unsigned char RainbowCMD[5]={0,0,0,0,0};
 
 void setup() {
   _init();
+  Serial.begin(9600);
   // override the default pattern and flash all pixels on at reset or startup 
   // (a kludgy but quick way to do it)
     RainbowCMD[2] = 0; RainbowCMD[3] = 0; DispshowColor();

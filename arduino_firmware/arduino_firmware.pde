@@ -72,6 +72,17 @@ if showChar {
 #include "TextFinder.h"
 #include <stdlib.h> 
 
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+#define AT __FILE__ ":" TOSTRING(__LINE__)
+
+/// This macro repalces "Got Here" messages.
+#define LTRACE() Serial.print(AT "\n")
+
+/// Same as LTRACE(), but can output additional text.
+#define LTRACEF(x) Serial.print(AT x "\n")
+
+
 #define _START_STRING webRaibow-server;
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
@@ -91,6 +102,7 @@ unsigned char state = 0;
 
 
 void setup() {
+  Serial.begin(9600);
   Wire.begin();
   Ethernet.begin(mac, ip);
   server.begin();
