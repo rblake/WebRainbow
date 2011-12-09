@@ -1,5 +1,5 @@
 <?php
-$fp = fsockopen("192.168.1.99", 23, $errno, $errstr, 3);
+$fp = fsockopen("10.42.43.99", 23, $errno, $errstr, 3);
 if (!$fp) {
     echo "$errstr ($errno)<br />\n";
 } else {
