@@ -86,7 +86,7 @@ if showChar {
 #define _START_STRING webRaibow-server;
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-byte ip[] = { 192, 168, 1, 99 };
+byte ip[] = { 10, 42, 43, 99 };
 int command[6];
 int function;
 
